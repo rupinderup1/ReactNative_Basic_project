@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function Result() {
     const route = useRoute();
+    const navigation = useNavigation();
     // var finalResult = [
     //     { name: 'Arc on Time(sec)', value: 0 },
     //     { name: 'Wire Dep(lbs)', value: 0 },
@@ -28,14 +29,16 @@ export default function Result() {
         setFinalResult(JSON.parse(obj).result);
         console.log(finalResult);
     }, []);
-    function onSubmitButton() { }
+    function onSubmitButton() {
+        navigation.navigate('home')
+    }
     return (
         <View style={styles.container}>
-            <Card containerStyle={[styles.inputCard, { backgroundColor: '#ffff99', shadowColor: '#ffff99', marginTop: '1vh' }]}>
-                <Text style={styles.finalResultHeading}>Final Result</Text>
+            <Card containerStyle={styles.inputCard}>
+                {/* <Text style={styles.finalResultHeading}>Final Result</Text> */}
                 {
-                    finalResult.map((item, index1) => (
-                        <View style={styles.inputCnt}>
+                    finalResult.map((item, key) => (
+                        <View key={key} style={styles.inputCnt}>
                             <View style={styles.inputHintCnt}>
                                 <Text style={styles.inputHint}>{item.name}</Text>
                             </View>
@@ -58,18 +61,20 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
     },
     inputCard: {
-        width: '95vw',
-        padding: '1vw',
+        marginTop: '2%',
+        width: '95%',
+        padding: '4%',
         shadowOpacity: 1,
         shadowRadius: 5,
-        marginTop: "1vw"
+        backgroundColor: '#ffff99', 
+        shadowColor: '#ffff99'
     },
     inputCnt: {
         width: '100%',
-        marginTop: '1vh',
+        marginTop: '1%',
         flexDirection: 'row'
     },
     inputHintCnt: {
@@ -77,12 +82,12 @@ const styles = StyleSheet.create({
     },
     inputHint: {
         color: '#000000',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '500'
     },
     input: {
         color: '#000000',
-        fontSize: 14,
+        fontSize: 16,
     },
     finalResultHeading: {
         fontSize: 16,
@@ -91,6 +96,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     submitButton: {
-        marginTop: '2vh'
+        marginTop: '2%',
+        backgroundColor: '#8db4e2',
+        width: '95%',
     }
 });

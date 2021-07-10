@@ -1,0 +1,2 @@
+export const ADD_PROCEDURE = "ADD_PROCEDURE";
+export const REMOVE_PROCEDURE = "REMOVE_PROCEDURE";

@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   appLogo: {
-    width: '50vw',
-    height: '50vw',
+    width: '40%',
+    height: '20%',
     resizeMode: 'stretch'
   },
   appName: {

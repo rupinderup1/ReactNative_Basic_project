@@ -1,33 +1,54 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
+  "name": "weldingProcess",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
-    "expo": "~41.0.1",
-    "expo-status-bar": "~1.0.4",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "@types/react-native-vector-icons": "^6.4.7",
+    "react": "17.0.1",
+    "react-dom": "^16.13.1",
+    "react-native": "0.64.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.0.0",
-    "react-native-web": "~0.13.12"
+    "react-native-unimodules": "~0.13.3",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.12.0",
+    "webpack": "^5.41.1",
+    "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.14.6",
+    "@babel/runtime": "^7.14.6",
     "@types/react": "~16.9.35",
+    "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
-    "typescript": "~4.0.0"
+    "@types/react-redux": "^7.1.11",
+    "@react-native-community/eslint-config": "^3.0.0",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.30.0",
+    "jest": "^27.0.6",
+    "metro-react-native-babel-preset": "^0.66.1",
+    "react-test-renderer": "17.0.1",
+    "typescript": "~3.9.5"
   },
-  "private": true
+  "jest": {
+    "preset": "react-native"
+  }
 }
