@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, Text, View, TextInput, Button, TouchableOpacity
 import { Card, Icon } from 'react-native-elements';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import RNFetchBlob from 'rn-fetch-blob'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { FloatingAction } from "react-native-floating-action";
 
 export default function Procedure() {
@@ -23,20 +24,21 @@ export default function Procedure() {
         ['deploy', '23432']
     ];
     const headerString = 'sdf sad';
+    var settingData: any;
     const rowString = values.map(d => `${d[0]},${d[1]}\n`).join('');
     const csvString = `${headerString}${rowString}`;
     // const pathToWrite = `${RNFetchBlob.fs.dirs.DownloadDir}/data.csv`;
-    console.log("PATH::::::");
+    // console.log("PATH::::::");
     const [isFinalResultButton, setIsFinalResultButton] = useState(false);
     const [isSelected, setIsSelected] = useState(-1);
     const [procedureData, setProcedureData] = useState([{
         id: 1,
         inputData: [
-            { name: 'Weld Length(in.)', value: '' },
-            { name: 'Arc Voltage', value: '' },
-            { name: 'Welding Amperage', value: '' },
-            { name: 'Weld Speed(in/min)', value: '' },
-            { name: 'WFS(in/min)', value: '' },
+            { name: 'Weld Length(in.)', value: '1' },
+            { name: 'Arc Voltage', value: '2' },
+            { name: 'Welding Amperage', value: '2' },
+            { name: 'Weld Speed(in/min)', value: '1' },
+            { name: 'WFS(in/min)', value: '1' },
         ],
         resultData: [
             { name: 'Arc on Time(sec)', value: 0, },
@@ -47,7 +49,9 @@ export default function Procedure() {
             { name: 'Heat Input(KJ/in)', value: 0 },
             { name: 'Dep Rate lb/hr', value: 0 },
         ]
-    }]);
+    }
+
+    ]);
     const newData = {
         id: 2,
         inputData: [
@@ -76,29 +80,54 @@ export default function Procedure() {
         { name: 'Heat Input(KJ/in)', value: 0 },
         { name: 'Dep Rate lb/hr', value: 0 },
     ]
+
     useEffect(() => {
-        const obj = JSON.stringify(route.params)
-        procedureType = JSON.parse(obj).type;
-        // dispatch;
-        if (procedureType == 'current') {
-            wireDia = 0.052;
-            gasFlowRate = 0;
-            wireWeight = 0.006444335;
-            wireCost = 1.69;
-            gasCost = 0;
-            laborRate = 75.00;
-            openFactor = 1;
-            transferEfficiency = 0.98;
-        } else {
-            wireDia = 0.125;
-            gasFlowRate = 0;
-            wireWeight = 0.037238438;
-            wireCost = 1.20;
-            gasCost = 0;
-            laborRate = 75.00;
-            openFactor = 1;
-            transferEfficiency = 0.98;
-        }
+        AsyncStorage.getItem('settingData').then((result) => {
+            // setresultData(resultData)
+            settingData = JSON.parse(result);
+            const obj = JSON.stringify(route.params)
+            procedureType = JSON.parse(obj).type;
+            // dispatch;
+            // if (procedureType == 'current') {
+            //     wireDia = 0.052;
+            //     gasFlowRate = 0;
+            //     wireWeight = 0.006444335;
+            //     wireCost = 1.69;
+            //     gasCost = 0;
+            //     laborRate = 75.00;
+            //     openFactor = 1;
+            //     transferEfficiency = 0.98;
+            // } else {
+            //     wireDia = 0.125;
+            //     gasFlowRate = 0;
+            //     wireWeight = 0.037238438;
+            //     wireCost = 1.20;
+            //     gasCost = 0;
+            //     laborRate = 75.00;
+            //     openFactor = 1;
+            //     transferEfficiency = 0.98;
+            // }
+
+            if (procedureType == 'current') {
+                wireDia = settingData[0].settingData[0].value;
+                gasFlowRate = settingData[0].settingData[1].value;
+                wireWeight = settingData[0].settingData[2].value;
+                wireCost = settingData[0].settingData[3].value;
+                gasCost = settingData[0].settingData[4].value;
+                laborRate = settingData[0].settingData[5].value;
+                openFactor = settingData[0].settingData[6].value;
+                transferEfficiency = settingData[0].settingData[7].value;
+            } else {
+                wireDia = settingData[0].settingData[0].value;
+                gasFlowRate = settingData[0].settingData[1].value;
+                wireWeight = settingData[0].settingData[2].value;
+                wireCost = settingData[0].settingData[3].value;
+                gasCost = settingData[0].settingData[4].value;
+                laborRate = settingData[0].settingData[5].value;
+                openFactor = settingData[0].settingData[6].value;
+                transferEfficiency = settingData[0].settingData[7].value;
+            }
+        });
     });
     function onChangeInputData(index: any, index1: any, text: any) {
         let newArray = [...procedureData];
@@ -147,6 +176,7 @@ export default function Procedure() {
             newArray[index].resultData[5].value = parseFloat(result.toPrecision(4));
             setIsFinalResultButton(true);
         }
+
         if (newArray[index].inputData[4].value != '') {
             let i: any;
             i = newArray[index].inputData[4].value;
@@ -197,7 +227,7 @@ export default function Procedure() {
         })
         finalArcTime = finalArcTime / 3600;
         finalArcTime = parseFloat(finalArcTime.toPrecision(3))
-        finalWireDep = finalWireDep * 1.69;
+        finalWireDep = finalWireDep * wireCost;
         finalWireDep = parseFloat(finalWireDep.toPrecision(3));
         finalGasUsage = finalGasUsage * gasCost;
         finalGasUsage = parseFloat(finalGasUsage.toPrecision(3));
@@ -211,18 +241,38 @@ export default function Procedure() {
         console.log(finalResult);
         totalPrice = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
         console.log(totalPrice);
-        navigation.navigate('result', { result: finalResult, totalPrice: totalPrice })
+
+        var data = {
+
+            type: procedureType,
+            settingData: settingData,
+            procedureData: procedureData,
+            finalResult: finalResult,
+
+        }   
+
+        navigation.navigate('result', { result: data, totalPrice: totalPrice})
+        // navigation.navigate('result', { final: finalData})
     }
     return (
-        <ScrollView style={{backgroundColor:'#fff'}}>
+        <ScrollView style={{ backgroundColor: '#fff' }}>
             <View style={styles.container}>
-                <TouchableOpacity activeOpacity={0.9} style={{alignSelf:'flex-end',marginRight:'2.5%'}} onPress={onAddProcedure}>
-                    <View style={styles.addProcedureButton}>
-                        {/* <Icon name='add' size={30}></Icon> */}
-                        <Image style={styles.upDownIcon} source={require('../assets/plus.png')}></Image>
-                        <Text style={[styles.weldId,{marginLeft:10}]}>{'ADD NEW'}</Text>
-                    </View>
-                </TouchableOpacity>
+                <View style={{ width: "95%", flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <TouchableOpacity activeOpacity={0.9} style={{ alignSelf: 'flex-start', marginRight: '0%' }} onPress={() => navigation.navigate('Settings', { type: procedureType, title: 'Current Procedure' })}>
+                        <View style={styles.addProcedureButton}>
+                            <Text style={[styles.weldId,]}>{'SETTINGS'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.9} style={{ alignSelf: 'flex-end', }} onPress={onAddProcedure}>
+                        <View style={styles.addProcedureButton}>
+                            {/* <Icon name='add' size={30}></Icon> */}
+                            <Image style={styles.upDownIcon} source={require('../assets/plus.png')}></Image>
+                            <Text style={[styles.weldId, { marginLeft: 10 }]}>{'ADD NEW'}</Text>
+
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
                 {
                     procedureData.map((item, index) => (
                         <View key={index}>
@@ -233,7 +283,7 @@ export default function Procedure() {
                                         <Image style={styles.upDownIcon} source={isSelected == index ? require('../assets/up_arrow.png') : require('../assets/down_arrow.png')}></Image>
                                         {procedureData.length > 1 ? (<TouchableOpacity style={styles.deleteIconCnt} onPress={() => onDeleteProcedure(index)}>
                                             {/* <Icon name='delete' size={22}></Icon> */}
-                                        <Image style={styles.upDownIcon} source={require('../assets/delete.png')}></Image>
+                                            <Image style={styles.upDownIcon} source={require('../assets/delete.png')}></Image>
                                         </TouchableOpacity>
                                         ) : null}
                                     </View>
@@ -299,14 +349,14 @@ export default function Procedure() {
                 </TouchableOpacity>
 
             </View >
-            </ScrollView>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding:'2%',
+        padding: '2%',
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
@@ -320,6 +370,7 @@ const styles = StyleSheet.create({
         marginTop: '2%',
         alignSelf: 'center'
     },
+
     weldId: {
         color: '#000000',
         fontSize: 16,
@@ -351,18 +402,18 @@ const styles = StyleSheet.create({
     input: {
         color: '#000000',
         fontSize: 15,
-        padding:0
+        padding: 0
     },
     addProcedureButton: {
-        flexDirection:'row',
+        flexDirection: 'row',
         borderWidth: 1,
         borderColor: 'rgba(0,0,0,0.2)',
         alignItems: 'center',
         justifyContent: 'center',
         paddingLeft: '2%',
-        paddingRight:'2%',
-        paddingTop:'1%',
-        paddingBottom:'1%',
+        paddingRight: '2%',
+        paddingTop: '1%',
+        paddingBottom: '1%',
         // width: 50,
         // height: 40,
         // position: 'absolute',
@@ -372,7 +423,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 10,
         shadowColor: '#8db4e2',
-        marginTop:'2%'
+        marginTop: '2%'
     },
     upDownIcon: {
         height: 20,
@@ -388,16 +439,16 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     calculateButton: {
-        backgroundColor:'#addbe6',
+        backgroundColor: '#addbe6',
         alignSelf: 'flex-end',
         width: '50%',
         marginTop: '5%',
         marginBottom: '1%',
-        borderRadius:2
+        borderRadius: 2
     },
     finalResultButton: {
         marginTop: '2%',
-        backgroundColor:'#8db4e2',
+        backgroundColor: '#8db4e2',
         width: '95%',
         // padding:'2%',
     }

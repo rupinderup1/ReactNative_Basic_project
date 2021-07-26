@@ -7,30 +7,29 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/components/Home';
 import Procedure from './src/components/Procedure';
 import Result from './src/components/Result';
+import OldProcedures from './src/components/OldProcedures';
+import Settings from './src/components/Settings';
+
 const Stack = createStackNavigator();
 import { createStore, applyMiddleware, Store } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-import reducer from "./src/store/reducer";
-
-
-const store: Store<ProcedureState, ProcedureAction> & {
-  dispatch: DispatchType
-} = createStore(reducer, applyMiddleware(thunk))
 
 export default function App() {
 
   return (
-    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="splash" component={Splash} options={{ title: 'Welding Process' }}></Stack.Screen>
         <Stack.Screen name="home" component={Home} options={{ title: 'Unleashing Your Welding Potential' }}></Stack.Screen>
         <Stack.Screen name="procedure" component={Procedure} options={({ route }) => ({ title: JSON.parse(JSON.stringify(route.params)).title })}></Stack.Screen>
         <Stack.Screen name="result" component={Result} options={{ title: 'Final Result' }}></Stack.Screen>
+
+        <Stack.Screen name="Settings" component={Settings} options={{ title: 'Settings' }}></Stack.Screen>
+        <Stack.Screen name="OldProcedures" component={OldProcedures} options={{ title: 'Previous Result Record' }}></Stack.Screen>
+
       </Stack.Navigator>
     </NavigationContainer >
-    </Provider>
   );
 }
 

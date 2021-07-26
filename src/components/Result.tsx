@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Result() {
     const route = useRoute();
@@ -26,10 +27,15 @@ export default function Result() {
     ]);
     useEffect(() => {
         const obj = JSON.stringify(route.params);
-        setFinalResult(JSON.parse(obj).result);
-        console.log(finalResult);
+        setFinalResult(JSON.parse(obj).result.finalResult);
     }, []);
-    function onSubmitButton() {
+    const onSubmitButton = async () => {
+        var finalData = [];
+        var data = await AsyncStorage.getItem('finalData');
+        finalData = JSON.parse(data);
+        const obj = JSON.stringify(route.params);
+        finalData.push(JSON.parse(obj).result)
+        AsyncStorage.setItem("finalData", JSON.stringify(finalData))
         navigation.navigate('home')
     }
     return (
@@ -69,7 +75,7 @@ const styles = StyleSheet.create({
         padding: '4%',
         shadowOpacity: 1,
         shadowRadius: 5,
-        backgroundColor: '#ffff99', 
+        backgroundColor: '#ffff99',
         shadowColor: '#ffff99'
     },
     inputCnt: {
