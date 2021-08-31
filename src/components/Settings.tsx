@@ -195,21 +195,27 @@ export default function Settings() {
 
   const calculateWireWeight = async (key) => {
     var wireWeight;
-    // var valueTwo;
+
 
     console.log("WIREDIA::::::::", setting[9].value)
 
-    wireWeight = 3.14 * ((parseFloat(setting[9].value)) / 2);
+    wireWeight = ((parseFloat(setting[9].value)) / 2);
 
-    wireWeight = parseFloat(setting[key].value) * Math.pow(wireWeight, 2) * 12;
+
+    // =(VLOOKUP(P13,T5:U12,2,FALSE))*(3.14*(B7/2)^2)*12
+    wireWeight = parseFloat(setting[key].value) *(3.14 * Math.pow(wireWeight, 2)) * 12;
 
     wireWeight = wireWeight.toPrecision(4);
 
     let obj = setting[11];
     obj.value = wireWeight;
+    console.log("weight new:::::::::::", wireWeight);
     setSetting([...setting.slice(0, 11), obj, ...setting.slice(12)]);
 
+
   }
+
+
 
 
   const onChangeDropdownText = async (text: any, key: any) => {
@@ -247,11 +253,34 @@ export default function Settings() {
   };
 
   const onChangeText = async (text: any, index: any) => {
-    console.log("DROPDOWNTEXT::::::", text);
+    console.log("DROPDOWNTEXTTTTTTTTTTTTTT::::::", text, index);
+
+
     let obj = setting[index];
     obj.value = text;
     setSetting([...setting.slice(0, index), obj, ...setting.slice(index + 1)]);
     setcont("SAVE");
+
+    if (index == 9) {
+      calculateWireWeight(7);
+      // var wireWeight;
+
+      // console.log("the 9th value is ::::", text);
+
+      // wireWeight = 3.14 * ((parseFloat(text)) / 2);
+
+      // console.log("Wire weight new:::::::::::",wireWeight);
+
+      // wireWeight = parseFloat(text) * Math.pow(wireWeight, 2) * 12;
+
+      // wireWeight = wireWeight.toPrecision(4);
+
+      // let obj = setting[11];
+      // obj.value = wireWeight;
+      // setSetting([...setting.slice(0, 11), obj, ...setting.slice(12)]);
+
+
+    }
   };
 
   const SaveData = async () => {
