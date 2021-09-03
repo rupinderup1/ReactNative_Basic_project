@@ -34,19 +34,19 @@ export default function Procedure() {
     const [procedureData, setProcedureData] = useState([{
         id: 1,
         inputData: [
-            { name: 'Weld Length(in.)', value: '' },
+            { name: 'Weld Length (in.)', value: '' },
             { name: 'Arc Voltage', value: '' },
             { name: 'Welding Amperage', value: '' },
-            { name: 'Additional Cost', value: '0' },
-            { name: 'Weld Speed(in/min)', value: '' },
-            { name: 'WFS(in/min)', value: '' },
+            { name: 'Additional Cost ($)', value: '0' },
+            { name: 'Weld Speed (in/min)', value: '' },
+            { name: 'WFS (in/min)', value: '' },
         ],
         resultData: [
-            { name: 'Arc on Time(sec)', value: 0, },
-            { name: 'Wire Dep(lbs)', value: 0 },
-            { name: 'Gas Usage(cuft)', value: 0 },
-            { name: 'Labor Cost', value: 0 },
-            { name: 'Heat Input(KJ/in)', value: 0 },
+            { name: 'Arc on Time (sec)', value: 0, },
+            { name: 'Wire Dep (lbs)', value: 0 },
+            { name: 'Gas Usage (cuft)', value: 0 },
+            { name: 'Labor Cost ($)', value: 0 },
+            { name: 'Heat Input (KJ/in)', value: 0 },
             { name: 'Dep Rate lb/hr', value: 0 },
         ]
     }
@@ -55,31 +55,32 @@ export default function Procedure() {
     const newData = {
         id: 2,
         inputData: [
-            { name: 'Weld Length(in.)', value: '' },
+            { name: 'Weld Length (in.)', value: '' },
             { name: 'Arc Voltage', value: '' },
             { name: 'Welding Amperage', value: '' },
-            { name: 'Additional Cost', value: '' },
-            { name: 'Weld Speed(in/min)', value: '' },
-            { name: 'WFS(in/min)', value: '' },
+            { name: 'Additional Cost ($)', value: '' },
+            { name: 'Weld Speed (in/min)', value: '' },
+            { name: 'WFS (in/min)', value: '' },
         ],
         resultData: [
-            { name: 'Arc on Time(sec)', value: 0 },
-            { name: 'Wire Dep(lbs)', value: 0 },
-            { name: 'Gas Usage(cuft)', value: 0 },
-            { name: 'Labor Cost', value: 0 },
-            { name: 'Heat Input(KJ/in)', value: 0 },
+            { name: 'Arc on Time (sec)', value: 0 },
+            { name: 'Wire Dep (lbs)', value: 0 },
+            { name: 'Gas Usage (cuft)', value: 0 },
+            { name: 'Labor Cost ($)', value: 0 },
+            { name: 'Heat Input (KJ/in)', value: 0 },
             { name: 'Dep Rate lb/hr', value: 0 },
 
         ]
     }
     var finalResult = [
-        { name: 'Arc on Time(sec)', value: 0 },
-        { name: 'Wire Dep(lbs)', value: 0 },
-        { name: 'Gas Usage(cuft)', value: 0 },
-        { name: 'Labor Cost', value: 0 },
-        { name: 'Additional Cost', value: 0, },
-        { name: 'Heat Input(KJ/in)', value: 0 },
+        { name: 'Arc on Time (hrs)', value: 0 },
+        { name: 'Wire Dep (lbs)', value: 0 },
+        { name: 'Gas Usage (cuft)', value: 0 },
+        { name: 'Labor Cost ($)', value: 0 },
+        { name: 'Additional Cost ($)', value: 0, },
+        { name: 'Heat Input (KJ/in)', value: 0 },
         { name: 'Dep Rate lb/hr', value: 0 },
+        { name: 'Total ($)', value: 0 },
     ]
 
     useEffect(() => {
@@ -144,7 +145,8 @@ export default function Procedure() {
             i = newArray[index].inputData[0].value;
             j = newArray[index].inputData[4].value;
             let result = (i / (j / 60));
-            newArray[index].resultData[0].value = parseFloat(result.toPrecision(4));
+            result = parseFloat(result.toPrecision(5));
+            newArray[index].resultData[0].value = result;
             setIsFinalResultButton(true);
         }
         if (newArray[index].resultData[0].value != 0 && newArray[index].inputData[5].value != '') {
@@ -248,9 +250,10 @@ export default function Procedure() {
         finalResult[3].value = finalLaborCost;
         finalResult[4].value = finalAdditionalCost;
         finalResult[5].value = finalHeatInput;
-
-        console.log(finalResult);
-        totalPrice = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
+        finalResult[7].value = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
+        finalResult[7].value.toPrecision(5);
+        // console.log(finalResult);
+        // totalPrice = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
         console.log(totalPrice);
 
         var data = {
@@ -262,7 +265,7 @@ export default function Procedure() {
 
         }
 
-        navigation.navigate('result', { result: data, totalPrice: totalPrice })
+        navigation.navigate('result', { result: data })
         // navigation.navigate('result', { final: finalData})
     }
     return (

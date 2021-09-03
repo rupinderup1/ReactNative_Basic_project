@@ -94,9 +94,9 @@ export default function Settings() {
             { name: "Wire Dia", value: "0.052", unit: "in" },
             { name: "Gas Flow Rate", value: "0", unit: "Cuft/hr" },
             { name: "Wire Weight", value: "", unit: "Ib/foot" },
-            { name: "Wire Cost", value: "1.69", unit: "Ib" },
-            { name: "Gas Cost", value: "0", unit: "Cuft" },
-            { name: "Labor Rate", value: "75.00", unit: "hr" },
+            { name: "Wire Cost ($)", value: "1.69", unit: "Ib" },
+            { name: "Gas Cost ($)", value: "0", unit: "Cuft" },
+            { name: "Labor Rate ($)", value: "75.00", unit: "hr" },
             { name: "Open Factor%", value: "100", unit: "Arc on time/hr" },
             { name: "Transfer Efficiency", value: "85", unit: "%" },
           ]);

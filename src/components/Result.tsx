@@ -17,13 +17,14 @@ export default function Result() {
   //     { name: 'Dep Rate lb/hr', value: 0 },
   // ]
   const [finalResult, setFinalResult] = useState([
-    {name: 'Arc on Time(sec)', value: 0},
+    {name: 'Arc on Time(hrs)', value: 0},
     {name: 'Wire Dep(lbs)', value: 0},
     {name: 'Gas Usage(cuft)', value: 0},
-    {name: 'Labor Cost', value: 0},
-    {name: 'Additional Cost', value: 0},
+    {name: 'Labor Cost ($)', value: 0},
+    {name: 'Additional Cost ($)', value: 0},
     {name: 'Heat Input(KJ/in)', value: 0},
     {name: 'Dep Rate lb/hr', value: 0},
+    {name: 'Total ($)', value: 0},
   ]);
   useEffect(() => {
     const obj = JSON.stringify(route.params);
