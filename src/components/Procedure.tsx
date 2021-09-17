@@ -34,19 +34,19 @@ export default function Procedure() {
     const [procedureData, setProcedureData] = useState([{
         id: 1,
         inputData: [
-            { name: 'Weld Length(in.)', value: '1' },
-            { name: 'Arc Voltage', value: '2' },
-            { name: 'Welding Amperage', value: '2' },
-            { name: 'Weld Speed(in/min)', value: '1' },
-            { name: 'WFS(in/min)', value: '1' },
+            { name: 'Weld Length (in.)', value: '' },
+            { name: 'Arc Voltage', value: '' },
+            { name: 'Welding Amperage', value: '' },
+            { name: 'Additional Cost ($)', value: '0' },
+            { name: 'Weld Speed (in/min)', value: '' },
+            { name: 'WFS (in/min)', value: '' },
         ],
         resultData: [
-            { name: 'Arc on Time(sec)', value: 0, },
-            { name: 'Wire Dep(lbs)', value: 0 },
-            { name: 'Gas Usage(cuft)', value: 0 },
-            { name: 'Labor Cost', value: 0 },
-            { name: 'Additional Cost', value: 0 },
-            { name: 'Heat Input(KJ/in)', value: 0 },
+            { name: 'Arc on Time (sec)', value: 0, },
+            { name: 'Wire Dep (lbs)', value: 0 },
+            { name: 'Gas Usage (cuft)', value: 0 },
+            { name: 'Labor Cost ($)', value: 0 },
+            { name: 'Heat Input (KJ/in)', value: 0 },
             { name: 'Dep Rate lb/hr', value: 0 },
         ]
     }
@@ -55,34 +55,37 @@ export default function Procedure() {
     const newData = {
         id: 2,
         inputData: [
-            { name: 'Weld Length(in.)', value: '' },
+            { name: 'Weld Length (in.)', value: '' },
             { name: 'Arc Voltage', value: '' },
             { name: 'Welding Amperage', value: '' },
-            { name: 'Weld Speed(in/min)', value: '' },
-            { name: 'WFS(in/min)', value: '' },
+            { name: 'Additional Cost ($)', value: '' },
+            { name: 'Weld Speed (in/min)', value: '' },
+            { name: 'WFS (in/min)', value: '' },
         ],
         resultData: [
-            { name: 'Arc on Time(sec)', value: 0 },
-            { name: 'Wire Dep(lbs)', value: 0 },
-            { name: 'Gas Usage(cuft)', value: 0 },
-            { name: 'Labor Cost', value: 0 },
-            { name: 'Additional Cost', value: 0 },
-            { name: 'Heat Input(KJ/in)', value: 0 },
+            { name: 'Arc on Time (sec)', value: 0 },
+            { name: 'Wire Dep (lbs)', value: 0 },
+            { name: 'Gas Usage (cuft)', value: 0 },
+            { name: 'Labor Cost ($)', value: 0 },
+            { name: 'Heat Input (KJ/in)', value: 0 },
             { name: 'Dep Rate lb/hr', value: 0 },
+
         ]
     }
     var finalResult = [
-        { name: 'Arc on Time(sec)', value: 0 },
-        { name: 'Wire Dep(lbs)', value: 0 },
-        { name: 'Gas Usage(cuft)', value: 0 },
-        { name: 'Labor Cost', value: 0 },
-        { name: 'Additional Cost', value: 0, },
-        { name: 'Heat Input(KJ/in)', value: 0 },
+        { name: 'Arc on Time (hrs)', value: 0 },
+        { name: 'Wire Dep (lbs)', value: 0 },
+        { name: 'Gas Usage (cuft)', value: 0 },
+        { name: 'Labor Cost ($)', value: 0 },
+        { name: 'Additional Cost ($)', value: 0, },
+        { name: 'Heat Input (KJ/in)', value: 0 },
         { name: 'Dep Rate lb/hr', value: 0 },
+        { name: 'Total ($)', value: 0 },
     ]
 
     useEffect(() => {
         AsyncStorage.getItem('settingData').then((result) => {
+
             // setresultData(resultData)
             settingData = JSON.parse(result);
             const obj = JSON.stringify(route.params)
@@ -109,23 +112,23 @@ export default function Procedure() {
             // }
 
             if (procedureType == 'current') {
-                wireDia = settingData[0].settingData[0].value;
-                gasFlowRate = settingData[0].settingData[1].value;
-                wireWeight = settingData[0].settingData[2].value;
-                wireCost = settingData[0].settingData[3].value;
-                gasCost = settingData[0].settingData[4].value;
-                laborRate = settingData[0].settingData[5].value;
-                openFactor = settingData[0].settingData[6].value;
-                transferEfficiency = settingData[0].settingData[7].value;
+                wireDia = settingData[0].settingData[9].value;
+                gasFlowRate = settingData[0].settingData[10].value;
+                wireWeight = settingData[0].settingData[11].value;
+                wireCost = settingData[0].settingData[12].value;
+                gasCost = settingData[0].settingData[13].value;
+                laborRate = settingData[0].settingData[14].value;
+                openFactor = settingData[0].settingData[15].value;
+                transferEfficiency = settingData[0].settingData[16].value;
             } else {
-                wireDia = settingData[0].settingData[0].value;
-                gasFlowRate = settingData[0].settingData[1].value;
-                wireWeight = settingData[0].settingData[2].value;
-                wireCost = settingData[0].settingData[3].value;
-                gasCost = settingData[0].settingData[4].value;
-                laborRate = settingData[0].settingData[5].value;
-                openFactor = settingData[0].settingData[6].value;
-                transferEfficiency = settingData[0].settingData[7].value;
+                wireDia = settingData[1].settingData[9].value;
+                gasFlowRate = settingData[1].settingData[10].value;
+                wireWeight = settingData[1].settingData[11].value;
+                wireCost = settingData[1].settingData[12].value;
+                gasCost = settingData[1].settingData[13].value;
+                laborRate = settingData[1].settingData[14].value;
+                openFactor = settingData[1].settingData[15].value;
+                transferEfficiency = settingData[1].settingData[16].value;
             }
         });
     });
@@ -136,20 +139,25 @@ export default function Procedure() {
     }
     function onCalculateResult(index: any) {
         let newArray = [...procedureData];
-        if (newArray[index].inputData[0].value != '' && newArray[index].inputData[3].value != '') {
+        if (newArray[index].inputData[0].value != '' && newArray[index].inputData[4].value != '') {
             let i: any;
             let j: any;
             i = newArray[index].inputData[0].value;
-            j = newArray[index].inputData[3].value;
+            j = newArray[index].inputData[4].value;
             let result = (i / (j / 60));
-            newArray[index].resultData[0].value = parseFloat(result.toPrecision(4));
+            result = parseFloat(result.toPrecision(5));
+            newArray[index].resultData[0].value = result;
             setIsFinalResultButton(true);
         }
-        if (newArray[index].resultData[0].value != 0 && newArray[index].inputData[4].value != '') {
+        if (newArray[index].resultData[0].value != 0 && newArray[index].inputData[5].value != '') {
             let j: any;
             let i = newArray[index].resultData[0].value;
-            j = newArray[index].inputData[4].value;
-            let result = (((i / 60 * j) / 12) * wireWeight) * transferEfficiency
+            j = newArray[index].inputData[5].value;
+            console.log(i);
+            console.log(j);
+            console.log(wireWeight);
+            console.log(transferEfficiency);
+            let result = (((i / 60 * j) / 12) * wireWeight) * (transferEfficiency / 100)
             newArray[index].resultData[1].value = parseFloat(result.toPrecision(3));
             setIsFinalResultButton(true);
         }
@@ -161,27 +169,27 @@ export default function Procedure() {
         }
         if (newArray[index].resultData[0].value != 0) {
             let i = newArray[index].resultData[0].value;
-            let result = ((i / 3600) * laborRate) / openFactor;
+            let result = ((i / 3600) * laborRate) / (openFactor / 100);
             newArray[index].resultData[3].value = parseFloat(result.toPrecision(4));
             setIsFinalResultButton(true);
         }
-        if (newArray[index].inputData[1].value != '' && newArray[index].inputData[2].value != '' && newArray[index].inputData[3].value != '') {
+        if (newArray[index].inputData[1].value != '' && newArray[index].inputData[2].value != '' && newArray[index].inputData[4].value != '') {
             let i: any;
             let j: any;
             let k: any;
             i = newArray[index].inputData[1].value;
             j = newArray[index].inputData[2].value;
-            k = newArray[index].inputData[3].value;
+            k = newArray[index].inputData[4].value;
             let result = (60 * i * j) / (1000 * k);
-            newArray[index].resultData[5].value = parseFloat(result.toPrecision(4));
+            newArray[index].resultData[4].value = parseFloat(result.toPrecision(4));
             setIsFinalResultButton(true);
         }
 
-        if (newArray[index].inputData[4].value != '') {
+        if (newArray[index].inputData[5].value != '') {
             let i: any;
-            i = newArray[index].inputData[4].value;
-            let result = ((i / 12 * 60) * wireWeight) * openFactor;
-            newArray[index].resultData[6].value = parseFloat(result.toPrecision(2));
+            i = newArray[index].inputData[5].value;
+            let result = ((i / 12 * 60) * wireWeight) * (openFactor / 100);
+            newArray[index].resultData[5].value = parseFloat(result.toPrecision(2));
             setIsFinalResultButton(true);
         }
         setProcedureData(newArray);
@@ -217,13 +225,16 @@ export default function Procedure() {
         var finalWireDep = 0;
         var finalGasUsage = 0;
         var finalLaborCost = 0;
+        var finalAdditionalCost = 0;
         var finalHeatInput = 0;
+        var wireWeightTepm = 0
         newArray.map((elements, index, arr) => {
             finalArcTime = finalArcTime + arr[index].resultData[0].value;
             finalWireDep = finalWireDep + arr[index].resultData[1].value;
             finalGasUsage = finalGasUsage + arr[index].resultData[2].value;
             finalLaborCost = finalLaborCost + arr[index].resultData[3].value;
-            finalHeatInput = finalHeatInput + arr[index].resultData[5].value;
+            finalAdditionalCost = finalAdditionalCost + parseInt(arr[index].inputData[3].value);
+            finalHeatInput = finalHeatInput + arr[index].resultData[4].value;
         })
         finalArcTime = finalArcTime / 3600;
         finalArcTime = parseFloat(finalArcTime.toPrecision(3))
@@ -237,9 +248,12 @@ export default function Procedure() {
         finalResult[1].value = finalWireDep;
         finalResult[2].value = finalGasUsage;
         finalResult[3].value = finalLaborCost;
+        finalResult[4].value = finalAdditionalCost;
         finalResult[5].value = finalHeatInput;
-        console.log(finalResult);
-        totalPrice = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
+        finalResult[7].value = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
+        finalResult[7].value.toPrecision(5);
+        // console.log(finalResult);
+        // totalPrice = finalResult[1].value + finalResult[2].value + finalResult[3].value + finalResult[4].value;
         console.log(totalPrice);
 
         var data = {
@@ -249,9 +263,9 @@ export default function Procedure() {
             procedureData: procedureData,
             finalResult: finalResult,
 
-        }   
+        }
 
-        navigation.navigate('result', { result: data, totalPrice: totalPrice})
+        navigation.navigate('result', { result: data })
         // navigation.navigate('result', { final: finalData})
     }
     return (
@@ -303,8 +317,8 @@ export default function Procedure() {
                                             </View>
                                         ))
                                     }
-                                    <TouchableOpacity activeOpacity={0.9} style={styles.calculateButton}>
-                                        <Button title="Calculate Result" onPress={() => onCalculateResult(index)}></Button>
+                                    <TouchableOpacity activeOpacity={0.9} style={styles.calculateButton} onPress={() => onCalculateResult(index)}>
+                                        <Text style={styles.calculateButtonCnt} >Calculate Result</Text>
                                     </TouchableOpacity>
                                 </Card>
                             ) : null}
@@ -342,9 +356,9 @@ export default function Procedure() {
                     ))
                 }
             </Card> */}
-                <TouchableOpacity style={styles.finalResultButton}>
+                <TouchableOpacity style={styles.finalResultButton} onPress={onSeeFinalResult}>
                     {isFinalResultButton ? (
-                        <Button title="See Final Result" onPress={onSeeFinalResult}></Button>
+                        <Text style={styles.finalResultButtonCnt}>See Final Result</Text>
                     ) : null}
                 </TouchableOpacity>
 
@@ -414,12 +428,7 @@ const styles = StyleSheet.create({
         paddingRight: '2%',
         paddingTop: '1%',
         paddingBottom: '1%',
-        // width: 50,
-        // height: 40,
-        // position: 'absolute',
-        // bottom: 10,
         backgroundColor: '#8db4e2',
-        // borderRadius: 50,
         shadowOpacity: 1,
         shadowRadius: 10,
         shadowColor: '#8db4e2',
@@ -446,10 +455,24 @@ const styles = StyleSheet.create({
         marginBottom: '1%',
         borderRadius: 2
     },
+    calculateButtonCnt: {
+        color: 'black',
+        alignSelf: 'center',
+        fontWeight: '600',
+        margin: '2%',
+    },
+
     finalResultButton: {
         marginTop: '2%',
-        backgroundColor: '#8db4e2',
+        backgroundColor: '#addbe6',
         width: '95%',
-        // padding:'2%',
+
+    },
+    finalResultButtonCnt: {
+        color: 'black',
+        fontWeight: '600',
+        alignSelf: 'center',
+        margin: '2%',
+
     }
 });
