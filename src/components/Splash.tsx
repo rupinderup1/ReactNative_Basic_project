@@ -1,13 +1,25 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Splash() {
   const navigation = useNavigation();
   useEffect(() => {
     setTimeout(() => {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'login' }],
+      AsyncStorage.getItem('isUserLoggedIn').then((isUserIn)=> {
+        if(isUserIn == 'true') {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'home' }],
+          })
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'login' }],
+          })
+        }
+       
       })
     }, 1000);
   }, []);

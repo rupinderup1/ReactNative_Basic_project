@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Login() {
@@ -10,24 +11,25 @@ export default function Login() {
 
     function onChangeUsername(text: any) {
         username = text;
-        console.log("USERNAME::::", username);
     }
 
     function onChangePassword(text: any) {
         password = text;
-        console.log("PASSWORD::::", password);
     }
 
-    function onLogin() {
+    function onLogin () {
         if (username == "" || password == "") {
             alert("Please enter username or password");
         } else {
-            if (username == 'weldingprocess@gmail.com' && password == 'WPAdmin@123') {
+            if (username.toLowerCase() == 'weldingprocess@gmail.com' && password == 'WPAdmin@123') {
                 // navigation.navigate('Home');
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'home' }],
-                })
+                 AsyncStorage.setItem('isUserLoggedIn','true').then(() => {
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'home' }],
+                    })
+                 })
+               
             } else {
                 alert("Incorrect credentials");
             }
