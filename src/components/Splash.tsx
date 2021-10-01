@@ -7,13 +7,13 @@ export default function Splash() {
     setTimeout(() => {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'home' }],
+        routes: [{ name: 'login' }],
       })
     }, 1000);
   }, []);
   return (
     <View style={styles.container}>
-      <Image style={styles.appLogo} source={require('../assets/favicon.png')}></Image>
+      <Image style={styles.appLogo} source={require('../assets/logo.png')}></Image>
       <Text style={styles.appName}>Welding Process</Text>
     </View>
   );

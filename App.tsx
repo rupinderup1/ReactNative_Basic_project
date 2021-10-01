@@ -5,6 +5,7 @@ import Splash from './src/components/Splash';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/components/Home';
+import Login from './src/components/Login';
 import Procedure from './src/components/Procedure';
 import Result from './src/components/Result';
 import OldProcedures from './src/components/OldProcedures';
@@ -22,6 +23,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="splash" component={Splash} options={{ title: 'Welding Process' }}></Stack.Screen>
         <Stack.Screen name="home" component={Home} options={{ title: 'Unleashing Your Welding Potential' }}></Stack.Screen>
+        <Stack.Screen name="login" component={Login} options={{ title: 'Welding Process' }}></Stack.Screen>
         <Stack.Screen name="procedure" component={Procedure} options={({ route }) => ({ title: JSON.parse(JSON.stringify(route.params)).title })}></Stack.Screen>
         <Stack.Screen name="result" component={Result} options={{ title: 'Final Result' }}></Stack.Screen>
 
